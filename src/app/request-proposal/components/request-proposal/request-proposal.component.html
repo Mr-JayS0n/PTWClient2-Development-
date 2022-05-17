@@ -1,0 +1,278 @@
+<div class = "content-body">
+    <mat-stepper #stepper>
+        <mat-step [stepControl] = "firstFormGroup" errorMessage = "Please complete all the required fields.">
+            <form class = "create-new-request-form" [formGroup] = "firstFormGroup">
+                <mat-label class = "required-label">* Required field</mat-label>
+                <br><br>
+                <ng-template matStepLabel>Create new request</ng-template>
+                <mat-label>a.&emsp;Select permit type</mat-label>
+                <br>
+                <mat-form-field class = "permit-type-options" appearance = "fill">
+                    <mat-label>Select an option</mat-label>
+                    <mat-select [(value)] = "selectedPermitType" formControlName = "firstCtrl" required>
+                        <mat-option>None</mat-option>
+                        <mat-option value = "Work at height">Work at height</mat-option>
+                        <mat-option value = "Confined space">Confined space</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br><br>
+                <mat-label>b.&emsp;Select location of work</mat-label>
+                <br>
+                <ng-template matStepLabel>Select location of work</ng-template>
+                <mat-form-field class = "location-of-work-options" appearance = "fill">
+                    <mat-label>Select an option</mat-label>
+                    <mat-select [(value)] = "selectedLocationOfWork" formControlName = "firstCtrl" required>
+                        <mat-option>None</mat-option>
+                        <mat-option *ngIf = "this.selectedPermitType == 'Work at height'" value = "Work at Height Training Platform">Work at Height Training Platform</mat-option>
+                        <mat-option *ngIf = "this.selectedPermitType == 'Confined space'" value = "Confined Space Training Room">Confined Space Training Room</mat-option>
+                        <mat-option value = "Biodiesel Production Plant (BPP)">Biodiesel Production Plant (BPP)</mat-option>
+                        <mat-option value = "Waste Water Treatment Plant (WWTP)">Waste Water Treatment Plant (WWTP)</mat-option>
+                        <mat-option value = "Emergency Spillage Area (ESA)">Emergency Spillage Area (ESA)</mat-option>
+                        <mat-option value = "Cooling Tower & Biodiesel Storage Area">Cooling Tower & Biodiesel Storage Area</mat-option>
+                        <mat-option value = "Chemical Storage Room">Chemical Storage Room</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <br><br>
+                <mat-label>c.&emsp;Choose a working schedule</mat-label>
+                <br>
+                <mat-form-field class = "date-range-picker" appearance = "fill">
+                    <mat-label>Enter a date range</mat-label>
+                    <mat-date-range-input [formGroup] = "dateRange" [rangePicker] = "picker" required>
+                        <input matStartDate formControlName = "start" placeholder = "Start date" required (dateChange) = "this.startDate = this.dateRange.get('start')?.value;">
+                        <input matEndDate formControlName = "end" placeholder = "End date" required (dateChange) = "this.endDate = this.dateRange.get('end')?.value;">
+                    </mat-date-range-input>
+                    <mat-datepicker-toggle matSuffix [for] = "picker"></mat-datepicker-toggle>
+                    <mat-date-range-picker #picker></mat-date-range-picker>
+                    <mat-error *ngIf = "dateRange.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                    <mat-error *ngIf = "dateRange.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                </mat-form-field>
+                <!--<p *ngIf = "this.startDate != null && this.endDate != null">
+                    From {{ this.startDate | date : 'dd/MM/yyyy' }} to {{ this.endDate | date : 'dd/MM/yyyy' }}
+                </p>-->
+                <div>
+                    <button mat-button matStepperNext (click)="onSubmitBtn()">Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step class = "assess-control-measures-form" [stepControl] = "secondFormGroup" errorMessage = "Ensure all measures are checked.">
+            <form [formGroup] = "secondFormGroup">
+                <br>
+                <h2>&emsp;SECTION 1 : Work at Height (WAH) Application Form</h2>
+                <mat-label class = "required-label">&emsp;* Required field</mat-label>
+                <br><br>
+                <ng-template matStepLabel>Assess control measures</ng-template>
+                <mat-grid-list cols = "2" rowHeight = "50px">
+                    <mat-grid-tile>
+                        <p>1.&emsp;Due consideration given to avoid WAH tasks.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>2.&emsp;Safe means of access or egress provided.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>3.&emsp;Edge protection where falling risk is applicable.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>4.&emsp;Equipment where falling risks are involved.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile></mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">a.&emsp;Travel restraints system to exclude individuals from falling risks.</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">b.&emsp;Personal Fall Arrest System (PFAS) for personnel subjected to falling risks.</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">c.&emsp;Proper lighting / illumination is provided; good housekeeping etc.</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">d.&emsp;Helmet with chin strap provided.</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>5.&emsp;Fall protection equipment in good condition.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>6.&emsp;Anchorage / lifeline installed by competent persons.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>7.&emsp;All personnel adequately trained for WAH.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>8.&emsp;Hazards and risk assessment are conducted and communicated.*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p>9.&emsp;Others (please specify).*</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-form-field class = "please-specify-text-field" appearance = "fill">
+                            <textarea matInput placeholder = "Please specify" required formControlName = "secondCtrl"></textarea>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <br>
+                <h2>&emsp;SECTION 2 : Approval by WAH Safety Assessor</h2>
+                <mat-label class = "required-label">&emsp;* Required field</mat-label>
+                <br><br>
+                <mat-grid-list cols = "2" rowHeight = "50px">
+                    <mat-grid-tile>
+                        <p><b>1.&emsp;Assessment of control measures.*</b></p>
+                    </mat-grid-tile>
+                    <mat-grid-tile></mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">a.&emsp;All reasonably practicable measures have been taken.</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">b.&emsp;Verification of documents / worker interview.</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p><b>2.&emsp;Site survey with supervisor.*</b></p>
+                    </mat-grid-tile>
+                    <mat-grid-tile></mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">a.&emsp;All on-site protected from falling hazards?</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">b.&emsp;Surrounding areas do not provide falling hazards?</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <p id = "indented-grid-text">c.&emsp;Proper PPE selected?</p>
+                    </mat-grid-tile>
+                    <mat-grid-tile>
+                        <mat-radio-group aria-label = "Select an option" required>
+                            <mat-radio-button value = "Yes">Yes</mat-radio-button>
+                            <mat-radio-button value = "No">No</mat-radio-button>
+                            <mat-radio-button value = "N/A">N/A</mat-radio-button>
+                        </mat-radio-group>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step class = "confirm-info-form" [stepControl] = "thirdFormGroup" errorMessage = "Please confirm info is correct.">
+            <form [formGroup] = "thirdFormGroup">
+                <br>
+                <ng-template matStepLabel>Final confirmation</ng-template>
+                <mat-checkbox formControlName = "thirdCtrl">&emsp;I have evaluated the application and am satisfied that all reasonably practicable measures have been taken.</mat-checkbox>
+                <div>
+                    <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button>
+                </div>
+            </form>
+        </mat-step>
+        <mat-step>
+            <ng-template matStepLabel>Done</ng-template>
+            <p>You are now done.</p>
+            <div>
+                <button mat-button matStepperPrevious>Back</button>
+                <button mat-button (click) = "stepper.reset()">Reset</button>
+            </div>
+        </mat-step>
+    </mat-stepper>
+</div>

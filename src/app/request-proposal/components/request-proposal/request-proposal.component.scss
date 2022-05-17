@@ -1,0 +1,44 @@
+.content-body {
+    padding-top: 5em;
+}
+
+.create-new-request-form, .assess-control-measures-form {
+    margin: 32px;
+}
+
+.required-label {
+    color: crimson;
+}
+
+.mat-stepper-horizontal {
+    margin-top: 8px;
+}
+
+.mat-form-field {
+    margin-top: 16px;
+}
+
+.permit-type-options, .location-of-work-options, .confirm-info-form {
+    width: 75%;
+}
+
+.date-range-picker {
+    width: 50%;
+}
+
+.mat-grid-tile p {
+    position: absolute;
+    left: 16px;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 32px;
+}
+
+#indented-grid-text {
+    left: 32px;
+}
+
+.please-specify-text-field {
+    width: 65%;
+}

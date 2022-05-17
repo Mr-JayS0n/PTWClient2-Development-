@@ -1,0 +1,18 @@
+<div class = "content-body">
+    <div class = "landing-title">
+        <h2>Permit-to-Work</h2>
+        <h3>E-Management System</h3>
+    </div>
+    <div> 
+        <mat-grid-list cols = "1" rowHeight= "75px">
+            <mat-grid-tile>To proceed, please sign-in</mat-grid-tile>
+            <mat-grid-tile>
+                <a class = "sign-in-button" mat-raised-button [routerLink] = "['./request-proposal']" routerLinkActive = "active" color = "primary"><mat-icon>person</mat-icon>&emsp;As Applicant</a>
+            </mat-grid-tile>
+            <mat-grid-tile><b>OR</b></mat-grid-tile>
+            <mat-grid-tile>
+                <a class = "sign-in-button" mat-raised-button [routerLink] = "['./validator-sign-in']" routerLinkActive = "active" color = "accent"><mat-icon>supervisor_account</mat-icon>&emsp;As Validator</a>
+            </mat-grid-tile>
+        </mat-grid-list>
+    </div>
+</div>
